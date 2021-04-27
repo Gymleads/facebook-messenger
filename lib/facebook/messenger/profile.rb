@@ -1,4 +1,4 @@
-require 'httparty'
+require "httparty"
 
 module Facebook
   module Messenger
@@ -10,7 +10,7 @@ module Facebook
       include HTTParty
 
       # Define base_uri for HTTParty.
-      base_uri 'https://graph.facebook.com/v3.2/me'
+      base_uri "https://graph.facebook.com/v10.0/me"
 
       format :json
 
@@ -28,9 +28,9 @@ module Facebook
       # @return [Boolean] If profile is successfully set, return true.
       #
       def set(settings, access_token:)
-        response = post '/messenger_profile', body: settings.to_json, query: {
-          access_token: access_token
-        }
+        response = post "/messenger_profile", body: settings.to_json, query: {
+                                access_token: access_token,
+                              }
 
         raise_errors(response)
 
@@ -49,9 +49,9 @@ module Facebook
       # @return [Boolean] If profile is successfully removed, return true.
       #
       def unset(settings, access_token:)
-        response = delete '/messenger_profile', body: settings.to_json, query: {
-          access_token: access_token
-        }
+        response = delete "/messenger_profile", body: settings.to_json, query: {
+                                access_token: access_token,
+                              }
 
         raise_errors(response)
 
@@ -67,7 +67,7 @@ module Facebook
       # @param [Hash] response Response hash from facebook.
       #
       def raise_errors(response)
-        raise Error, response['error'] if response.key? 'error'
+        raise Error, response["error"] if response.key? "error"
       end
 
       #
@@ -78,8 +78,8 @@ module Facebook
       def default_options
         super.merge(
           headers: {
-            'Content-Type' => 'application/json'
-          }
+            "Content-Type" => "application/json",
+          },
         )
       end
 

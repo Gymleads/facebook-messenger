@@ -1,4 +1,4 @@
-require 'httparty'
+require "httparty"
 
 module Facebook
   module Messenger
@@ -9,7 +9,7 @@ module Facebook
     module Subscriptions
       include HTTParty
 
-      base_uri 'https://graph.facebook.com/v3.2/me'
+      base_uri "https://graph.facebook.com/v10.0/me"
 
       format :json
 
@@ -28,11 +28,11 @@ module Facebook
       # @return [Boolean] TRUE
       #
       def subscribe(access_token:, subscribed_fields: [])
-        response = post '/subscribed_apps',
-                        headers: { 'Content-Type' => 'application/json' },
+        response = post "/subscribed_apps",
+                        headers: { "Content-Type" => "application/json" },
                         body: {
                           access_token: access_token,
-                          subscribed_fields: subscribed_fields
+                          subscribed_fields: subscribed_fields,
                         }.to_json
 
         raise_errors(response)
@@ -53,9 +53,9 @@ module Facebook
       # @return [Boolean] TRUE
       #
       def unsubscribe(access_token:)
-        response = delete '/subscribed_apps', query: {
-          access_token: access_token
-        }
+        response = delete "/subscribed_apps", query: {
+                              access_token: access_token,
+                            }
 
         raise_errors(response)
 
@@ -73,7 +73,7 @@ module Facebook
       # @return Raise the error.
       #
       def raise_errors(response)
-        raise Error, response['error'] if response.key? 'error'
+        raise Error, response["error"] if response.key? "error"
       end
 
       #

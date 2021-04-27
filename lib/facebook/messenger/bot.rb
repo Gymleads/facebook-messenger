@@ -1,8 +1,8 @@
-require 'facebook/messenger/bot/error_parser'
-require 'facebook/messenger/bot/exceptions'
-require 'facebook/messenger/bot/message_type'
-require 'facebook/messenger/bot/messaging_type'
-require 'facebook/messenger/bot/tag'
+require "facebook/messenger/bot/error_parser"
+require "facebook/messenger/bot/exceptions"
+require "facebook/messenger/bot/message_type"
+require "facebook/messenger/bot/messaging_type"
+require "facebook/messenger/bot/tag"
 
 module Facebook
   module Messenger
@@ -13,7 +13,7 @@ module Facebook
       include HTTParty
 
       # Define base_uri for HTTParty.
-      base_uri 'https://graph.facebook.com/v3.2/me'
+      base_uri "https://graph.facebook.com/v10.0/me"
 
       #
       # @return [Array] Array containing the supported webhook events.
@@ -52,7 +52,7 @@ module Facebook
           query = { access_token: access_token }
           query[:appsecret_proof] = app_secret_proof if app_secret_proof
 
-          response = post '/messages',
+          response = post "/messages",
                           body: JSON.dump(message),
                           format: :json,
                           query: query
@@ -74,7 +74,7 @@ module Facebook
           unless EVENTS.include? event
             raise ArgumentError,
                   "#{event} is not a valid event; " \
-                  "available events are #{EVENTS.join(',')}"
+                  "available events are #{EVENTS.join(",")}"
           end
 
           hooks[event] = block
@@ -134,8 +134,8 @@ module Facebook
           super.merge(
             read_timeout: 300,
             headers: {
-              'Content-Type' => 'application/json'
-            }
+              "Content-Type" => "application/json",
+            },
           )
         end
 
